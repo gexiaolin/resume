@@ -1,0 +1,81 @@
+html
+{
+    height: 100%;
+}
+body
+{
+    font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    height: 100%;
+
+    color: #333;
+}
+body,
+ul,
+ol,
+li,
+p,
+h1,
+h2,
+h3,
+h4,
+h5
+{
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+button,
+input,
+select,
+textarea
+{
+    font-family: inherit;
+    font-size: 100%;
+
+    margin: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section
+{
+    display: block;
+}
+img
+{
+    border: 0;
+}
+a
+{
+    text-decoration: none;
+}
+.wrap
+{
+    overflow: hidden;
+
+    width: 10rem;
+    margin: 0 auto;
+}
+.clearfix::before,
+.clearfix::after
+{
+    display: table;
+
+    content: '';
+}
+.clearfix:after
+{
+    clear: both;
+}
