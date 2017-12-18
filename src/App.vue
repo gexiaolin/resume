@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <editorStyle :code="styleCode" ref="styleCompnent"></editorStyle>
-        <editorMarkdown></editorMarkdown>
+        <editorMarkdown :code="markDownCode" :showInHtml="showInHtml" ref="markDownCompnent"></editorMarkdown>
     </div>
 </template>
 
@@ -18,8 +18,10 @@
         name: 'root',
         data () {
             return {
-                styleNumber: 0,
                 styleCode: '',
+                markDownCode: '',
+                currentArea: 'style',
+                showInHtml: false,
                 styleString: [
                 `* {
     transition: all ease .2s;
@@ -72,7 +74,42 @@ body {
     right: 4%;
     top: 30px;
     bottom: 30px;
-}`]
+}`,
+`# 这是h1 #
+## 这是h2 ##
+### 这是h3 ###
+***
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+[这是链接](https://www.smzdm.com)   
+*tips*   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+you can use <code>html</code> tag   
+`]
             };
         },
         components: {
@@ -85,16 +122,19 @@ body {
         },
         methods: {
             async initResume () {
-                await this.showStyle();
+                await this.showStyle(0, 'style');
+                await this.showStyle(1, 'md');
+                this.showInHtml = true;
             },
-            showStyle () {
+            showStyle (num, area) {
+                this.currentArea = area;
                 return new Promise((res, rej) => {
                     let interval = 30;
                     // 计算字符总数
                     let codeLength = this.styleString
-                            /* 取需要展示的styleString前this.styleNumber个元素 */
+                            /* 取需要展示的styleString前index个元素 */
                             .filter((_, index) => {
-                                return index <= this.styleNumber;
+                                return index === num;
                             })
                             /* 取每个元素的length */
                             .map(item => {
@@ -104,7 +144,7 @@ body {
                             .reduce((a, b) => {
                                 return a + b;
                             });
-                    this.currenStyle = this.styleString[this.styleNumber];
+                    this.currenStyle = this.styleString[num];
 
                     let n = 0;
                     let timeFn = setInterval(() => {
@@ -113,6 +153,7 @@ body {
                             n += 1;
                         } else {
                             clearInterval(timeFn);
+                            res();
                         }
                     }, interval);
 
@@ -120,18 +161,22 @@ body {
             },
             /**
              * 拼接需要显示的style code
-             * @param  {Number} n   需要拼接的第n个字符
-             * @param  {Number} len 需要拼接的字符总长度
-             * @return {String}     返回拼接字符
+             * @param  {Number} n    需要拼接的第n个字符
+             * @param  {Number} len  需要拼接的字符总长度
+             * @return {String}      返回拼接字符
              */
             getStyle (n, len) {
-                // 遇到换行scrollTop到最底部
-                if (this.currenStyle[n] === '\n') {
-                    this.$refs.styleCompnent.goBottom();
-                }
+                let handleDom = this.currentArea === 'style' ? this.$refs.styleCompnent : this.$refs.markDownCompnent;
 
-                this.styleCode += this.currenStyle[n];
-                this.$refs.styleCompnent.goBottom();
+                this.$nextTick(() => {
+                    // 遇到换行scrollTop到最底部
+                    if (this.currenStyle[n] === '\n') {
+                        handleDom.goBottom();
+                    }
+
+                    this.currentArea === 'style' ? this.styleCode += this.currenStyle[n] : this.markDownCode += this.currenStyle[n];
+                    handleDom.goBottom();
+                });
             }
         }
     };
