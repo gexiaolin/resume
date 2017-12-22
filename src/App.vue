@@ -119,7 +119,7 @@ you can use \`html\` tag
             showStyle (num, area) {
                 this.currentArea = area;
                 return new Promise((res, rej) => {
-                    let interval = 10;
+                    let interval = 40;
                     // 计算字符总数
                     let codeLength = this.styleString
                             /* 取需要展示的styleString前index个元素 */
