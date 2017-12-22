@@ -23,8 +23,9 @@
                 currentArea: 'style',
                 showInHtml: false,
                 styleString: [
-                `* {
-    transition: all ease .2s;
+`* {
+    -webkit-transition: all ease .2s;
+            transition: all ease .2s;
 }
 
 body {
@@ -47,7 +48,7 @@ body {
     bottom: 30px;
 }
 
-/* 来点代码高亮 */
+/* 代码高亮 */
 .style-wrap pre {
     color: #fff;
 }
@@ -84,32 +85,20 @@ body {
 [这是链接](https://www.smzdm.com)   
 [这是链接](https://www.smzdm.com)   
 [这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
-[这是链接](https://www.smzdm.com)   
 *tips*   
 you can use <code>html</code> tag   
 you can use <code>html</code> tag   
 you can use <code>html</code> tag   
 you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-you can use <code>html</code> tag   
-`]
+you can use \`html\` tag   
+`,
+`
+/** 
+ *  emmmmm.......
+ *  格式不太友好
+ *  转成html
+ */`
+                ]
             };
         },
         components: {
@@ -124,12 +113,13 @@ you can use <code>html</code> tag
             async initResume () {
                 await this.showStyle(0, 'style');
                 await this.showStyle(1, 'md');
+                await this.showStyle(2, 'style');
                 this.showInHtml = true;
             },
             showStyle (num, area) {
                 this.currentArea = area;
                 return new Promise((res, rej) => {
-                    let interval = 30;
+                    let interval = 10;
                     // 计算字符总数
                     let codeLength = this.styleString
                             /* 取需要展示的styleString前index个元素 */
