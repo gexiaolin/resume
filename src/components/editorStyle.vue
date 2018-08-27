@@ -20,6 +20,11 @@
                 return `<style>${this.code}</style>`;
             }
         },
+        watch: {
+            workCode () {
+                this.goBottom();
+            }
+        },
         methods: {
             goBottom () {
                 this.$refs.styleWrap.scrollTop = 999999;
